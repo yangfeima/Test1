@@ -22,7 +22,7 @@ public class OrderController {
 
     @GetMapping("/order")
     public void order(){
-        //本地修改数据库
+        //本地修改数据库更改
         orderTabService.addOrderTab();
         //更改完成
         System.out.println(RootContext.getXID());
