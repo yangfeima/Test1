@@ -24,6 +24,6 @@ public class OrderController {
     public void order(){
         //本地修改数据库更改
         orderTabService.addOrderTab();
-        System.out.println(RootContext.getXID());//输出结果
+        System.out.println(RootContext.getXID());
     }
 }
