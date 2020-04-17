@@ -24,6 +24,7 @@ public class OrderController {
     public void order(){
         //本地修改数据库更改
         //测试合并冲突
+        String str="";
         orderTabService.addOrderTab();
         System.out.println(RootContext.getXID());
     }
