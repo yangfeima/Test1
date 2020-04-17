@@ -25,7 +25,7 @@ public class OrderController {
         //本地修改数据库更改
         orderTabService.addOrderTab();
         //本地修改数据库更改完成
-        //日志
+        //日志分支
         System.out.println(RootContext.getXID());//输出结果
        // int i=1/0;
     }
