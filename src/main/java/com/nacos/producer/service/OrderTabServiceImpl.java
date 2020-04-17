@@ -34,6 +34,7 @@ public class OrderTabServiceImpl implements OrderTabService {
      */
     @Override
     public void addOrderTab(){
+        //更改
         String orderId = System.currentTimeMillis() + "";
         OrderTab order = new OrderTab();
         order.setOrderId(orderId);
