@@ -1,33 +1,83 @@
 package com.nacos.producer.controller;
 
+import com.nacos.producer.model.OrderTab;
 import com.nacos.producer.service.OrderTabService;
-import io.seata.core.context.RootContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.*;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+import java.util.List;
+
 /**
- *
- * <功能详细描述>
+ * 订单类
  *
  * @author HX0011159
- * @title OrderController
- * @date 2020/4/16
+ * @date 2020/4/20
  * @since <版本号>
  */
 @RestController
+@Api(value = "订单类")
 public class OrderController {
 
-    @Autowired
+    @Resource
     private OrderTabService orderTabService;
 
-    @GetMapping("/order")
-    public void order(){
-        //本地修改数据库更改
-        //测试合并冲突
-        String a = "";
-        String str="";
-        orderTabService.addOrderTab();
-        System.out.println(RootContext.getXID());
-        //测试合并冲突
+    /**
+     * 新增订单信息
+     * @author  HX0011159
+     * @description 新增订单信息
+     * @param  orderTab 订单实体参数
+     * @return  void
+     * @date  2020/4/20
+     */
+    @PostMapping("/addOrder")
+    @ApiOperation(value = "新增订单",notes = "新增订单")
+    @ApiResponse(code = 400,message = "参数没有填好",response = String.class)
+    public void addOrder(@RequestBody OrderTab orderTab){//如果添加@RequestBody则用json传递
+        orderTabService.addOrderTab(orderTab);
+    }
+
+    /**
+     * 更改订单信息
+     * @author  HX0011159
+     * @description 更改订单信息
+     * @param  orderTab 订单实体参数
+     * @return  void
+     * @date  2020/4/20
+     */
+    @PutMapping("/updateOrder")
+    @ApiOperation(value = "更改订单",notes = "更改订单")
+    @ApiResponse(code = 400,message = "参数没有填好",response = String.class)
+    public void updateOrder(OrderTab orderTab){//javabean传递
+        orderTabService.updateOrderTab(orderTab);
+    }
+
+
+    /**
+     * 根据订单ID删除订单
+     * @author  HX0011159
+     * @description 根据订单ID删除订单
+     * @param  orderId 订单ID
+     * @return  void
+     * @date  2020/4/20
+     */
+    @GetMapping("/deleteOrder")
+    @ApiOperation(value = "删除订单",notes = "根据订单Id删除订单")
+    @ApiImplicitParam(paramType = "query",name = "orderId",value = "订单ID",required = true,dataType = "String")
+    public void deleteOrder(@RequestParam String orderId){
+        orderTabService.deleteByOrderId(orderId);
+    }
+
+
+    /**
+     * 查询全部订单信息
+     * @author  HX0011159
+     * @description  查询全部订单信息
+     * @return  java.util.List<com.nacos.producer.model.OrderTab>
+     * @date  2020/4/20
+     */
+    @GetMapping("/findAllOrder")
+    @ApiOperation(value = "查询全部订单",notes = "默认查询全部订单")
+    public List<OrderTab> findAllOrder(){
+        return orderTabService.findAll();
     }
 }

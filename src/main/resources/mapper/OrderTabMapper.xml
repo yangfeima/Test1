@@ -3,7 +3,7 @@
 <mapper namespace="com.nacos.producer.mapper.OrderTabMapper" >
     <!--新增订单-->
     <update id="addOrderTab" parameterType="com.nacos.producer.model.OrderTab">
-        insert into orderTab(orderId,status) values(#{orderId},#{status})
+        insert into order_tab(order_id,status) values(#{orderId},#{status})
     </update>
 
     <!--查询订单-->
@@ -11,13 +11,24 @@
         select * from orderTab where orderId = #{orderId}
     </select>-->
 
-    <!--更改订单失败-->
-    <!-- <update id="updateFailOrderByOrderId" parameterType="String">
-         update orderTab set status = 2 where orderId = #{orderId}
-     </update>-->
+    <!--更改订单-->
+    <update id="updateOrderTab" parameterType="com.nacos.producer.model.OrderTab">
+         update order_tab set status = #{status} where order_id = #{orderId}
+     </update>
 
-    <!--更改订单成功-->
-    <!--<update id="updateSuccessOrderByOrderId" parameterType="String">
-        update orderTab set status = 1 where orderId = #{orderId}
-    </update>-->
+    <!--删除订单-->
+    <update id="deleteByOrderId" parameterType="String">
+        delete from  order_tab where order_id = #{orderId}
+    </update>
+
+    <!--查询用户列表-->
+    <select id="findAll" resultMap = "BaseResultMap" parameterType="com.nacos.producer.model.OrderTab">
+        select  * from order_tab
+    </select>
+
+    <resultMap id="BaseResultMap" type="com.nacos.producer.model.OrderTab" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+    </resultMap>
 </mapper>

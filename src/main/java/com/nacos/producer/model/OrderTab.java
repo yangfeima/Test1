@@ -3,13 +3,12 @@ package com.nacos.producer.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
 /**
- *
- * <功能详细描述>
+ * 订单实体
  *
  * @author HX0011159
- * @title OrderTab
- * @date 2020/4/16
+ * @date 2020/4/20
  * @since <版本号>
  */
 @Setter
