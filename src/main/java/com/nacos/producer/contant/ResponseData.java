@@ -1,5 +1,12 @@
 package com.nacos.producer.contant;
 
+/**
+ * 返回结果类
+ *
+ * @author HX0011159
+ * @date 2020/4/20
+ * @since <版本号>
+ */
 public class ResponseData {
 	private int code = 200;
 	private String message = "";
