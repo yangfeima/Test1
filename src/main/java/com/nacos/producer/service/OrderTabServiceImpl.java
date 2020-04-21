@@ -1,8 +1,11 @@
 package com.nacos.producer.service;
 
+import com.nacos.producer.exception.ServiceException;
 import com.nacos.producer.model.OrderTab;
 import org.springframework.stereotype.Service;
 import com.nacos.producer.mapper.OrderTabMapper;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import javax.annotation.Resource;
 
@@ -69,7 +72,32 @@ public class OrderTabServiceImpl implements OrderTabService {
      */
     @Override
     public List<OrderTab> findAll(){
-        return orderTabMapper.findAll();
+        List<OrderTab> list = orderTabMapper.findAll();
+        if (list.size() > 0){
+            return list;
+        } else {
+           throw new ServiceException("没有数据！","-1");
+        }
     }
 
+    /**
+     * 测试本地事务
+     * @author  HX0011159
+     * @description 测试本地事务  不要在代码上try catch否则写第二个表报错时不会回滚
+     * @return  void
+     * @date  2020/4/20
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void testTranslation(){
+            String orderId = System.currentTimeMillis() + "";
+            OrderTab order = new OrderTab();
+            order.setOrderId(orderId);
+            order.setStatus(1);
+            orderTabMapper.addOrderTab(order);
+            OrderTab order2 = new OrderTab();
+            order2.setOrderId(orderId);
+            order2.setStatus(0);
+            orderTabMapper.updateOrderTab(order2);
+    }
 }

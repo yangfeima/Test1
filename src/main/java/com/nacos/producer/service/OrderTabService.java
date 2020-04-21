@@ -54,4 +54,13 @@ public interface OrderTabService {
      */
      List<OrderTab> findAll();
 
+     /**
+      * 测试本地事务
+      * @author  HX0011159
+      * @description  测试本地事务
+      * @return  void
+      * @date  2020/4/20
+      */
+     void testTranslation();
+
 }
