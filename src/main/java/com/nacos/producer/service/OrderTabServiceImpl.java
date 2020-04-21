@@ -90,14 +90,18 @@ public class OrderTabServiceImpl implements OrderTabService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void testTranslation(){
+        try {
             String orderId = System.currentTimeMillis() + "";
             OrderTab order = new OrderTab();
             order.setOrderId(orderId);
             order.setStatus(1);
             orderTabMapper.addOrderTab(order);
-            OrderTab order2 = new OrderTab();
-            order2.setOrderId(orderId);
-            order2.setStatus(0);
-            orderTabMapper.updateOrderTab(order2);
+            OrderTab orders = new OrderTab();
+            orders.setOrderId(orderId);
+            orders.setStatus(0);
+            orderTabMapper.updateOrderTab(orders);
+        }catch (Exception e) {
+            throw new ServiceException("测试本地事务处理异常" + e.getMessage(),"-1");
+        }
     }
 }

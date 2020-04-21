@@ -101,8 +101,14 @@ public class OrderController {
      * @date  2020/4/20
      */
     @GetMapping("/testTranslation")
-    public void  testTranslation(){
+    public ResponseData  testTranslation(){
+        try {
             orderTabService.testTranslation();
-
+            ResponseData response = new ResponseData("测试本地事务提交成功",200);
+            return response;
+        } catch (Exception e){
+            LOGGER.error("测试本地事务提交失败：" + e.getMessage(), e);
+            return new ResponseData(e.getMessage(),-1);
+    }
     }
 }
