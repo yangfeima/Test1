@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.nacos.producer.mapper.OrderTabMapper" >
     <!--新增订单-->
-    <update id="addOrderTab" parameterType="com.nacos.producer.model.OrderTab">
+    <!--<update id="insertOrderTab" parameterType="com.nacos.producer.model.OrderTab">
         insert into order_tab(order_id,status) values(#{orderId},#{status})
-    </update>
+    </update>-->
 
     <!--查询订单-->
    <!-- <select id="selectOrderTabByOrderId" parameterType="String" resultType="com.example.producer.model.OrderTab">
@@ -12,17 +12,17 @@
     </select>-->
 
     <!--更改订单-->
-    <update id="updateOrderTab" parameterType="com.nacos.producer.model.OrderTab">
+    <!--<update id="updateOrderTab" parameterType="com.nacos.producer.model.OrderTab">
          update order_tab set status = #{status} where order_id = #{orderId}
-     </update>
+     </update>-->
 
     <!--删除订单-->
-    <update id="deleteByOrderId" parameterType="String">
+    <!--<update id="deleteByOrderId" parameterType="String">
         delete from  order_tab where order_id = #{orderId}
-    </update>
+    </update>-->
 
     <!--查询用户列表-->
-    <select id="findAll" resultMap = "BaseResultMap" parameterType="com.nacos.producer.model.OrderTab">
+    <!--<select id="findAll" resultMap = "BaseResultMap" parameterType="com.nacos.producer.model.OrderTab">
         select  * from order_tab
     </select>
 
@@ -30,5 +30,5 @@
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="order_id" property="orderId" jdbcType="VARCHAR" />
         <result column="status" property="status" jdbcType="INTEGER" />
-    </resultMap>
+    </resultMap>-->
 </mapper>

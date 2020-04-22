@@ -1,7 +1,7 @@
 package com.nacos.producer.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nacos.producer.model.OrderTab;
-import java.util.List;
 
 /**
  * 订单操作接口
@@ -21,7 +21,7 @@ public interface OrderTabService {
      * @return  void
      * @date  2020/4/20
      */
-     void addOrderTab(OrderTab orderTab);
+     void insertOrderTab(OrderTab orderTab);
 
 
     /**
@@ -36,23 +36,23 @@ public interface OrderTabService {
 
 
     /**
-     * 根据订单ID删除订单接口
+     * 根据ID删除订单接口
      * @author  HX0011159
-     * @description 根据订单ID删除订单接口
-     * @param  orderId　订单Id参数
+     * @description 根据ID删除订单接口
+     * @param  id　Id参数
      * @return  void
      * @date  2020/4/20
      */
-     void deleteByOrderId(String orderId);
+     void deleteById(int id);
 
     /**
-     * 查询全部订单信息接口
+     * 分页查询全部订单信息接口
      * @author  HX0011159
-     * @description 查询全部订单信息接口
-     * @return  java.util.List<com.nacos.producer.model.OrderTab>
-     * @date  2020/4/20
+     * @description  
+     * @return  com.baomidou.mybatisplus.core.metadata.IPage<com.nacos.producer.model.OrderTab>
+     * @date  2020/4/22
      */
-     List<OrderTab> findAll();
+    IPage<OrderTab> findAll();
 
      /**
       * 测试本地事务

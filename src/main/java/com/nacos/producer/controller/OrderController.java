@@ -1,5 +1,6 @@
 package com.nacos.producer.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nacos.producer.model.OrderTab;
 import com.nacos.producer.service.OrderTabService;
 import io.swagger.annotations.*;
@@ -7,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import java.util.List;
 import com.nacos.producer.contant.ResponseData;
 /**
  * 订单类
@@ -32,11 +32,11 @@ public class OrderController {
      * @return  void
      * @date  2020/4/20
      */
-    @PostMapping("/addOrder")
+    @PostMapping("/insertOrder")
     @ApiOperation(value = "新增订单",notes = "新增订单")
     @ApiResponse(code = 400,message = "参数没有填好",response = String.class)
-    public void addOrder(@RequestBody OrderTab orderTab){//如果添加@RequestBody则用json传递
-        orderTabService.addOrderTab(orderTab);
+    public void insertOrder(@RequestBody OrderTab orderTab){//如果添加@RequestBody则用json传递
+        orderTabService.insertOrderTab(orderTab);
     }
 
     /**
@@ -50,39 +50,39 @@ public class OrderController {
     @PutMapping("/updateOrder")
     @ApiOperation(value = "更改订单",notes = "更改订单")
     @ApiResponse(code = 400,message = "参数没有填好",response = String.class)
-    public void updateOrder(OrderTab orderTab){//javabean传递
+    public void updateOrder(@RequestBody OrderTab orderTab){//javabean传递
         orderTabService.updateOrderTab(orderTab);
     }
 
 
     /**
-     * 根据订单ID删除订单
+     * 根据ID删除订单
      * @author  HX0011159
-     * @description 根据订单ID删除订单
-     * @param  orderId 订单ID
+     * @description 根据ID删除订单
+     * @param  id ID
      * @return  void
      * @date  2020/4/20
      */
     @GetMapping("/deleteOrder")
-    @ApiOperation(value = "删除订单",notes = "根据订单Id删除订单")
-    @ApiImplicitParam(paramType = "query",name = "orderId",value = "订单ID",required = true,dataType = "String")
-    public void deleteOrder(@RequestParam String orderId){
-        orderTabService.deleteByOrderId(orderId);
+    @ApiOperation(value = "根据Id删除订单",notes = "根据Id删除订单")
+    @ApiImplicitParam(paramType = "query",name = "id",value = "id",required = true,dataType = "int")
+    public void deleteOrder(@RequestParam int id){
+        orderTabService.deleteById(id);
     }
 
 
     /**
-     * 查询全部订单信息
+     * 查询全部订单
      * @author  HX0011159
-     * @description  查询全部订单信息
-     * @return  java.util.List<com.nacos.producer.model.OrderTab>
-     * @date  2020/4/20
+     * @description  
+     * @return  com.nacos.producer.contant.ResponseData
+     * @date  2020/4/22
      */
     @GetMapping("/findAllOrder")
     @ApiOperation(value = "查询全部订单",notes = "默认查询全部订单")
     public ResponseData findAllOrder(){
         try {
-            List<OrderTab> list = orderTabService.findAll();
+            IPage<OrderTab> list= orderTabService.findAll();
             ResponseData response = new ResponseData("查询全部订单成功",200);
             response.setData(list);
            return response;
@@ -104,11 +104,10 @@ public class OrderController {
     public ResponseData  testTranslation(){
         try {
             orderTabService.testTranslation();
-            ResponseData response = new ResponseData("测试本地事务提交成功",200);
-            return response;
+            return new ResponseData("测试本地事务提交成功",200);
         } catch (Exception e){
             LOGGER.error("测试本地事务提交失败：" + e.getMessage(), e);
             return new ResponseData(e.getMessage(),-1);
-    }
+        }
     }
 }

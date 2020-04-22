@@ -1,12 +1,14 @@
 package com.nacos.producer.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nacos.producer.exception.ServiceException;
 import com.nacos.producer.model.OrderTab;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import com.nacos.producer.mapper.OrderTabMapper;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 import javax.annotation.Resource;
 
 /**
@@ -17,7 +19,7 @@ import javax.annotation.Resource;
  * @since <版本号>
  */
 @Service
-public class OrderTabServiceImpl implements OrderTabService {
+public class OrderTabServiceImpl extends ServiceImpl<OrderTabMapper, OrderTab> implements OrderTabService {
 
     @Resource
     private OrderTabMapper orderTabMapper;
@@ -32,8 +34,8 @@ public class OrderTabServiceImpl implements OrderTabService {
      * @date  2020/4/20
      */
     @Override
-    public void addOrderTab(OrderTab orderTab){
-        orderTabMapper.addOrderTab(orderTab);
+    public void insertOrderTab(OrderTab orderTab){
+        orderTabMapper.insert(orderTab);
     }
 
     /**
@@ -46,7 +48,7 @@ public class OrderTabServiceImpl implements OrderTabService {
      */
     @Override
     public void updateOrderTab(OrderTab orderTab){
-        orderTabMapper.updateOrderTab(orderTab);
+        orderTabMapper.updateById(orderTab);
     }
 
 
@@ -54,29 +56,31 @@ public class OrderTabServiceImpl implements OrderTabService {
      * 根据订单ID删除订单接口实现
      * @author  HX0011159
      * @description 根据订单ID删除订单接口实现
-     * @param  orderId　订单Id参数
+     * @param  id　Id
      * @return  void
      * @date  2020/4/20
      */
     @Override
-    public void deleteByOrderId(String orderId){
-        orderTabMapper.deleteByOrderId(orderId);
+    public void deleteById(int id){
+        orderTabMapper.deleteById(id);
     }
 
     /**
-     * 查询全部订单信息接口实现
+     * 分页查询全部订单信息接口
      * @author  HX0011159
-     * @description 查询全部订单信息接口实现
-     * @return  java.util.List<com.nacos.producer.model.OrderTab>
-     * @date  2020/4/20
+     * @description  
+     * @return  com.baomidou.mybatisplus.core.metadata.IPage<com.nacos.producer.model.OrderTab>
+     * @date  2020/4/22
      */
     @Override
-    public List<OrderTab> findAll(){
-        List<OrderTab> list = orderTabMapper.findAll();
-        if (list.size() > 0){
-            return list;
+    public IPage<OrderTab> findAll(){
+        QueryWrapper<OrderTab> wrapper = new QueryWrapper<>();
+        Page<OrderTab> page = new Page<>(3, 5);
+        IPage<OrderTab> iPage = orderTabMapper.selectPage(page,wrapper);
+        if (iPage.getRecords().size() > 0){
+            return iPage;
         } else {
-           throw new ServiceException("没有数据！","-1");
+            throw new ServiceException("没有数据！","-1");
         }
     }
 
@@ -95,11 +99,11 @@ public class OrderTabServiceImpl implements OrderTabService {
             OrderTab order = new OrderTab();
             order.setOrderId(orderId);
             order.setStatus(1);
-            orderTabMapper.addOrderTab(order);
+            orderTabMapper.insert(order);
             OrderTab orders = new OrderTab();
             orders.setOrderId(orderId);
             orders.setStatus(0);
-            orderTabMapper.updateOrderTab(orders);
+            orderTabMapper.insert(orders);
         }catch (Exception e) {
             throw new ServiceException("测试本地事务处理异常" + e.getMessage(),"-1");
         }
